@@ -1,0 +1,41 @@
+{
+  "kind": "collectionType",
+  "collectionName": "reservas",
+  "info": {
+    "singularName": "reserva",
+    "pluralName": "reservas",
+    "displayName": "Reserva",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "fechaDesde": {
+      "type": "date",
+      "required": true
+    },
+    "fechaHasta": {
+      "type": "date",
+      "required": true
+    },
+    "fechaReserva": {
+      "type": "date",
+      "required": true
+    },
+    "telefono": {
+      "type": "integer"
+    },
+    "cliente": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::cliente.cliente"
+    },
+    "alojamiento": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::alojamiento.alojamiento"
+    }
+  }
+}
