@@ -695,6 +695,7 @@ export interface ApiAlojamientoAlojamiento extends Schema.CollectionType {
     capacidad: Attribute.Integer;
     imagen: Attribute.String;
     descripcion: Attribute.RichText;
+    color: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -772,6 +773,7 @@ export interface ApiReservaReserva extends Schema.CollectionType {
       'oneToOne',
       'api::alojamiento.alojamiento'
     >;
+    estado: Attribute.String & Attribute.DefaultTo<'Pendiente'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

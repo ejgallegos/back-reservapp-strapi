@@ -36,6 +36,10 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::alojamiento.alojamiento"
+    },
+    "estado": {
+      "type": "string",
+      "default": "Pendiente"
     }
   }
 }

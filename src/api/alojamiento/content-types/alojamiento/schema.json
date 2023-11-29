@@ -29,6 +29,9 @@
     },
     "descripcion": {
       "type": "richtext"
+    },
+    "color": {
+      "type": "string"
     }
   }
 }
