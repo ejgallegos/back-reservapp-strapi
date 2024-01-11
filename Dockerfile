@@ -1,19 +1,44 @@
+# Use a smaller base image
 FROM node:18-alpine
-# Installing libvips-dev for sharp Compatibility
-RUN apk update && apk add --no-cache build-base gcc autoconf automake zlib-dev libpng-dev nasm bash vips-dev git
-ARG NODE_ENV=development
+
+# Set the working directory
+WORKDIR /opt/app
+
+# Install only necessary dependencies
+RUN apk --no-cache add \
+    build-base \
+    zlib-dev \
+    libpng-dev \
+    nasm \
+    vips-dev \
+    git
+
+# Set NODE_ENV to production by default
+ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
 
-WORKDIR /opt/
+# Copy package.json and package-lock.json separately to leverage Docker caching
 COPY package.json package-lock.json ./
-RUN npm install -g node-gyp
-RUN npm config set fetch-retry-maxtimeout 600000 -g && npm install
-ENV PATH /opt/node_modules/.bin:$PATH
 
-WORKDIR /opt/app
+# Install global dependencies and project dependencies
+RUN npm install -g node-gyp && \
+    npm config set fetch-retry-maxtimeout 600000 -g && \
+    npm install --only=production
+
+# Copy the rest of the application files
 COPY . .
+
+# Change ownership to the non-root user
 RUN chown -R node:node /opt/app
+
+# Switch to the non-root user
 USER node
-RUN ["npm", "run", "build"]
+
+# Build the application
+RUN npm run build
+
+# Expose the necessary port
 EXPOSE 1337
+
+# Run the application
 CMD ["npm", "run", "develop"]
